@@ -1,0 +1,4 @@
+Keys - Send Keystrokes
+Send a series of keys to a window.
+You can emulate key combinations through the syntax [KEY_DOWN]x[KEY_UP] where "KEY" is the key to hold down and "x" is the character to type while KEY is pressed.\n\nSee the online documentation for a full listing of supported keys.
+Unknown Key Identifier
