@@ -1,0 +1,14 @@
+#VERSION:Beta 1.3
+An outdated string file has been detected.\n\nStrokeIt Control Plugin\n\nPlease visit http://www.tcbmi.com/strokeit to obtain the latest file.
+
+StrokeIt - Command Editor
+StrokeIt - Learn Gestures
+StrokeIt - Disable
+StrokeIt - Shutdown
+StrokeIt - Temporarily Disable
+
+Show the StrokeIt Command Editor.
+Show the StrokeIt Gesture Learning Dialog.
+Disable StrokeIt.
+Shutdown StrokeIt.
+Disable StrokeIt for the next gesture only.
