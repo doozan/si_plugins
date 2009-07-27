@@ -1,0 +1,22 @@
+#VERSION:1.0
+An outdated string file has been detected.\n\Sample Plugin\n\nPlease visit http://www.tcbmi.com/strokeit to obtain the latest file.
+
+# Command names
+Sample - Maximize or Restore
+Sample - Minimize
+Sample - Move
+Sample - Resize
+
+# Command Descriptions
+Maximize or Restore the current window.
+Minimize the current window.
+Move the current window.
+Resize the current window.
+
+# Move Dialog
+X Position:
+Y Position:
+
+# Size Dialog
+Height:
+Width:
