@@ -1,0 +1,18 @@
+#VERSION:Beta 1.3
+An outdated string file has been detected.\n\nSendmessage Plugin\n\nPlease visit http://www.tcbmi.com/strokeit to obtain the latest file.
+
+WinMsg - Send Message
+WinMsg - Post Message
+Send a message to a window.
+Post a message to a window.
+
+Send Message To:
+Current Window
+Window By Class Name:
+Window By Window Title:
+&Match text as pattern.
+
+Message Parameters:
+Message ID: 
+WParam:
+LParam:
