@@ -1,0 +1,24 @@
+#VERSION:1.0
+
+# Plugin Name
+Sample Plugin
+
+# Command names
+Sample - Maximize or Restore
+Sample - Minimize
+Sample - Move
+Sample - Resize
+
+# Command Descriptions
+Maximize or Restore the current window.
+Minimize the current window.
+Move the current window.
+Resize the current window.
+
+# Move Dialog
+X Position:
+Y Position:
+
+# Size Dialog
+Height:
+Width:
