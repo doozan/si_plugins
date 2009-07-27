@@ -1,0 +1,26 @@
+#VERSION:Beta 1.4
+An outdated string file has been detected.\n\nExec Plugin\n\nPlease visit http://www.tcbmi.com/strokeit to obtain the latest file.
+
+Run - Run Program
+Internet - Open Website
+Internet - Run Web Browser
+Internet - Run E-Mail Client
+Internet - New E-Mail message
+
+Open the specified program or file.
+Open the specified website.
+Run the default web browser.
+Run the default email client.
+Compose a new E-Mail message.
+
+Website:
+
+E-Mail Address:
+
+File:
+Start dir:
+Arguments:
+B&rowse...
+
+Executable Files
+All Files
