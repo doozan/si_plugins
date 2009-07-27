@@ -1,0 +1,26 @@
+Mouse - Right Click
+
+Simulate a mouse click.
+
+Button:
+Action:
+
+Right
+Left
+Middle
+
+Button Down
+Button Up
+Click
+Double Click
+
+Location
+
+Gesture &Start
+Gesture &End
+Exact &Position
+
+X:
+Y:
+
+Relative to window
