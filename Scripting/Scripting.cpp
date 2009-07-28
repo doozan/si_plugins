@@ -8,6 +8,8 @@ extern "C" {
 #include "lauxlib.h"
 }
 
+#pragma comment(linker, "/entry:DllMain")
+
 #define PRO_PLUGIN
 #include "Scripting.h"
 #include "resource.h"
@@ -815,6 +817,7 @@ SAVE(script)
   if (lpszBuf)
   {
     DeleteScriptDetails((s_commandData **) gpCmdData, giCmdData);
+    giCmdData = 0;
   }
 
   SAVE_RETURN();
