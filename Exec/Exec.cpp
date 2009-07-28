@@ -535,7 +535,7 @@ void Run(char *szFile, char *szArgs, char *szDir, char *szState)
   *szExpandedArgs = 0;
 
   // if szFile is quoted, remove the quotes
-  if (*szFile = '"')
+  if (*szFile == '"')
   {
     szFile = szFile + 1;
     *(szFile + lstrlen(szFile) - 1) = '\0';
