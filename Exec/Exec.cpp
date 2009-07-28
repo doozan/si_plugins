@@ -20,7 +20,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
 
-
 #include <windows.h>
 #include "Plugin.h"
 #include "StrLib.h"
@@ -29,7 +28,7 @@ THE SOFTWARE.
 // function definitions
 BOOL CALLBACK DlgProc (HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 char *GetRegKey(HKEY type, char *parentKey, char *keyName);
-char *GetHandler(char *szKey);
+char *GetHandler(char *szKey, char *szDefaultViewer);
 void StripArgs(char *szCmdLine);
 char *StrReplace(char *szIn, char *szMatch, char *szReplace);
 void Run(char *szCmd, char *szArgs, char *szDir, char *szShow);
@@ -94,7 +93,7 @@ INIT()
 
 EXEC(browser)
 {
-  char *szFile = GetHandler("http");
+  char *szFile = GetHandler("http", "IE.HTTP");
   StripArgs(szFile);
 
   if (szFile)
@@ -108,7 +107,7 @@ EXEC(browser)
 
 EXEC(mail)
 {
-  char *szFile = GetHandler("mailto");
+  char *szFile = GetHandler("mailto", "WindowsMail.Url.mailto");
   StripArgs(szFile);
 
   if (szFile)
@@ -122,7 +121,7 @@ EXEC(mail)
 
 EXEC(newmail)
 {
-  char *szFile = GetHandler("mailto");
+  char *szFile = GetHandler("mailto", "WindowsMail.Url.mailto");
 
   if (szFile)
   {
@@ -156,7 +155,7 @@ EXEC(newmail)
 
 EXEC(web)
 {
-  char *szFile = GetHandler("http");
+  char *szFile = GetHandler("http", "IE.HTTP");
 
   if (szFile)
   {
@@ -460,6 +459,9 @@ char *StrReplace(char *szIn, char *szMatch, char *szReplace)
 
 void StripArgs(char *szCmdLine)
 {
+  if (!szCmdLine || !*szCmdLine)
+    return;
+
   // if the command is quoted, find the closing quote
   // and remove everything afterwards
   if (szCmdLine[0] == '\"')
@@ -479,12 +481,11 @@ void StripArgs(char *szCmdLine)
 }
 
 
-char *GetHandler(char *szProtocol)
+char *GetHandler(char *szProtocol, char *szDefaultViewer)
 {
   char szKey[MAX_PATH];
-
-  BOOL bOlderThanVista = 0;
   char *szCmd = NULL;
+  char *szViewer = NULL;
 
   if (bVistaOrNewer)
   {
@@ -492,19 +493,20 @@ char *GetHandler(char *szProtocol)
     lstrcat(szKey, szProtocol);
     lstrcat(szKey, "\\UserChoice");
 
-    char *szViewer = GetRegKey(HKEY_CURRENT_USER, szKey, "progid");
-    if (szViewer)
-    {
-      lstrcpy(szKey, szViewer);
-      lstrcat(szKey, "\\Shell\\Open\\Command");
+    szViewer = GetRegKey(HKEY_CURRENT_USER, szKey, "progid");
 
-      szCmd = GetRegKey(HKEY_CLASSES_ROOT, szKey, "");
-      delete szViewer;
-    }
+    if ( (!szViewer || !*szViewer) && (szDefaultViewer && *szDefaultViewer) )
+      szViewer = mstrdup(szDefaultViewer);
+
+    lstrcpy(szKey, szViewer);
+    lstrcat(szKey, "\\shell\\open\\command");
+
+    szCmd = GetRegKey(HKEY_CLASSES_ROOT, szKey, "");
+    delete szViewer;
   }
 
-  // older than vista
-  else
+  // older than vista, or no default viewer found
+  if (!szCmd)
   {
     lstrcpy(szKey, szProtocol);
     lstrcat(szKey, "\\shell\\open\\command");
