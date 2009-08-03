@@ -20,7 +20,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
 
-
 #include "keys.h"
 #include "resource.h"
 #include <commctrl.h>
@@ -408,7 +407,7 @@ SAVE(hotkey)
       ghHook = NULL;
    }   
 
-   char szHotKey[32];
+   char szHotKey[128];  // longest possible hotkey is "[WIN_DOWN][CTRL_DOWN][ALT_DOWN][SHIFT_DOWN][VK_LAUNCH_MEDIA_SELECT][SHIFT_UP][ALT_UP][CTRL_UP][WIN_UP]"
    *szHotKey = NULL;
 
    if (gbWin)
