@@ -424,6 +424,7 @@ SAVE(size)
 
 SAVE(activate)
 {
+  SaveItem(IDC_CLASS);
   SaveItem(IDC_CAPTION);
   SaveCheck(IDC_CHECK_PATTERN, "PATTERN");
 
