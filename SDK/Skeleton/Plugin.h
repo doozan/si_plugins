@@ -39,14 +39,12 @@ extern char *_strings[_STRING_COUNT];
 struct s_point {
    short      x;
    short      y;
-   BYTE      recorded;   // indicates whether the point was recorded from mouse movements, or interpolated
-   s_point  *next;
 };
 
 struct s_gesture {
   char      *name;
-   s_point  *point_head;
-   s_point  *point_tail;
+   s_point  *points;
+   UINT     point_count;
    int      left;
    int      right;
    int      top;
@@ -59,6 +57,7 @@ struct s_execParams {
    int         id;
    void        *lpData;
    char        *lpszSavedParams;
+   HWND        hWndChild;
 };
 
 
@@ -359,17 +358,19 @@ struct s_pluginInitData *PostInit()
 #define SP_STOP_ALL     0x0001
 #define SP_NEXT_APP     0x0002
 
-#define SI_SHOW           49001
-#define SI_LEARN          49002
-#define SI_DISABLE        49003
-#define SI_SHUTDOWN       49004
-#define SI_IGNORENEXT     49005
-#define SI_DONELEARNING   49006
-#define SI_DONEEDITING    49007
-#define SI_HIDETRAY       49008
-#define SI_SHOWTRAY       49009
-#define SI_RELOAD         49010
+#define  SI_SHOW           49001
+#define  SI_LEARN          49002
+#define  SI_SETSTATE       49003
+#define  SI_SHUTDOWN       49004
+#define  SI_IGNORENEXT     49005
+#define  SI_HIDETRAY       49008
+#define  SI_SHOWTRAY       49009
+#define  SI_RELOAD         49010
 
+// WParams for the SI_SETSTATE command
+#define  STATE_DISABLED    0
+#define  STATE_ENABLED     1
+#define  STATE_TOGGLE      2
 
 
 #endif // PLUGIN_INC
