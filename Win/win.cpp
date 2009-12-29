@@ -154,7 +154,8 @@ EXEC(max_rest)
 EXEC(min)
 {
   // execute the command
-  ShowWindow(EXEC_GET_HWND(), SW_MINIMIZE);
+  SendMessage(EXEC_GET_HWND(), WM_SYSCOMMAND, SC_MINIMIZE, 0);
+//  ShowWindow(EXEC_GET_HWND(), SW_MINIMIZE);
 
   // if we had created a data structure or string or any other information that we wanted to save
   // and have available for the next time this command runs, we could return a pointer to the data
