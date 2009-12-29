@@ -97,7 +97,7 @@ EXEC(learn)
 EXEC(disable)
 {
   HWND hWnd = FindWindow(APP_NAME, NULL);
-  SendMessage(hWnd, SI_DISABLE, NULL, NULL);
+  SendMessage(hWnd, SI_SETSTATE, STATE_DISABLED, NULL);
   EXEC_RETURN(NULL);
 }
 EXEC(quit)
