@@ -59,7 +59,7 @@ INIT()
   //                    Command     Name           Description         Icon        EXEC    SHOW       SAVE       CLEAR
   //                    -------     ---------      --------------      --------    ----    -------    -------    -------
   INIT_COMMAND_CUSTOM  (send,       STR(SEND),     STR(SEND_DESC),     ICON_MSG,   send,   message,   message,   message);
-  INIT_COMMAND_CUSTOM  (post,       STR(SEND),     STR(SEND_DESC),     ICON_MSG,   post,   message,   message,   message);
+  INIT_COMMAND_CUSTOM  (post,       STR(POST),     STR(POST_DESC),     ICON_MSG,   post,   message,   message,   message);
 
   INIT_RETURN("Send Window Message");
 }
