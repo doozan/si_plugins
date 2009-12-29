@@ -7,6 +7,7 @@
 
 
 int l_gesture_get_hwnd(lua_State *L);
+int l_gesture_get_hwnd_child(lua_State *L);
 int l_gesture_get_point(lua_State *L);
 int l_gesture_get_point_count(lua_State *L);
 int l_gesture_get_bounding_rect(lua_State *L);

@@ -40,6 +40,7 @@ int giCmdData;
 static const struct luaL_reg gesture_lib [] =
 {
   {"hwnd",        l_gesture_get_hwnd},
+  {"hwnd_child",  l_gesture_get_hwnd_child},
   {"point",       l_gesture_get_point},
   {"point_count", l_gesture_get_point_count},
   {"rect",        l_gesture_get_bounding_rect},
@@ -66,6 +67,12 @@ int l_gesture_get_hwnd(lua_State *L)
   return 1; // number of return values
 }
 
+int l_gesture_get_hwnd_child(lua_State *L)
+{
+  lua_pushnumber(L, (LUA_NUMBER) (DWORD) gData.params->hWndChild );
+  return 1; // number of return values
+}
+
 int l_gesture_get_name(lua_State *L)
 {
   lua_pushstring(L, gData.params->gesture->name );
@@ -82,23 +89,9 @@ int l_gesture_get_bounding_rect(lua_State *L)
 }
 
 
-int get_point_count(s_point *point)
-{
-  int i = 0;
-  while (point)
-  {
-    i++;
-    point = point->next;
-  }
-  return i;
-}
-
 int l_gesture_get_point_count(lua_State *L)
 {
-  if (!gData.point_count)
-    gData.point_count = get_point_count(gData.params->gesture->point_head);
-
-  lua_pushnumber(L, (LUA_NUMBER) gData.point_count );
+  lua_pushnumber(L, (LUA_NUMBER) gData.params->gesture->point_count);
   return 1; // number of return values
 }
 
@@ -106,52 +99,20 @@ int l_gesture_get_point_count(lua_State *L)
 
 int l_gesture_get_point(lua_State *L)
 {
-  int idx = (int) luaL_checknumber(L, 1);
+  int idx = luaL_checknumber(L, 1);
 
-  if (idx == 0)
+  // if it's negative, its offset from the end of the points
+  if (idx < 0)
+    idx += gData.params->gesture->point_count;
+
+  if (idx >= 0 && idx < gData.params->gesture->point_count)
   {
-   lua_pushnumber(L, (LUA_NUMBER) gData.params->gesture->point_head->x );
-   lua_pushnumber(L, (LUA_NUMBER) gData.params->gesture->point_head->y );
-  }
-  else if (idx == -1)
-  {
-   lua_pushnumber(L, (LUA_NUMBER) gData.params->gesture->point_tail->x );
-   lua_pushnumber(L, (LUA_NUMBER) gData.params->gesture->point_tail->y );
-  }
-  else
-  {
-    // script is looking at more than just the first and the last points,
-    // chances are it's going to want to walk through the entire list so
-    // let's convert the linked list to an array for faster repeat access
-    if (!gData.points)
-    {
-      if (!gData.point_count)
-        gData.point_count = get_point_count(gData.params->gesture->point_head);
-
-      gData.points = new POINT[gData.point_count];
-
-      s_point *point = gData.params->gesture->point_head;
-      for (int i=0; i<gData.point_count; i++)
-      {
-        gData.points[i].x = point->x;
-        gData.points[i].y = point->y;
-        point = point->next;
-      }
-    }
-
-    if (idx < 0)
-      idx = 0;
-
-    if (idx >= gData.point_count)
-      idx = gData.point_count-1;
-
-    lua_pushnumber(L, (LUA_NUMBER) gData.points[idx].x );
-    lua_pushnumber(L, (LUA_NUMBER) gData.points[idx].y );
-
+    lua_pushnumber(L, (LUA_NUMBER) gData.params->gesture->points[idx].x );
+    lua_pushnumber(L, (LUA_NUMBER) gData.params->gesture->points[idx].y );
+    return 2; // number of return values
   }
 
-
-  return 2; // number of return values
+  return 0;
 }
 
 
