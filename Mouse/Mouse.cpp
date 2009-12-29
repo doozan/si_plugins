@@ -320,8 +320,8 @@ void RunMouseCommand(HWND hWnd, s_params *cmd, s_gesture *gesture)
   
     if (cmd->pos == POS_START)
     {
-      x = gesture->point_head->x;
-      y = gesture->point_head->y;
+      x = gesture->points[0].x;
+      y = gesture->points[0].y;
     }
     else if (cmd->pos == POS_SCREEN)
     {
