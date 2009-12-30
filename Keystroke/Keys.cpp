@@ -1085,6 +1085,10 @@ LRESULT CALLBACK HotKeyProc(int code, WPARAM wParam, LPARAM lParam) {
            GetKeyNameText(lParam, gKey, 32);
          }
 
+         // if it's an alphabetic key, make it lowercase
+         if (lstrlen(gKey) == 1 && *gKey >= 'A' && *gKey <= 'Z')
+           *gKey += 'a'-'A';
+
          if (bInit)
             lstrcat(buf, " + ");
          lstrcat(buf, gKey);
