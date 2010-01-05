@@ -1129,42 +1129,52 @@ char *ConvertKeysToSequence(char *keys) {
    *buf = 0;
    int count=0;
 
+   // look for constants
+   // [KEYNAME] [KEYNAME_DOWN] [KEYNAME_UP]
    while (data && *data) {
-      if(*data == '[') {
+
+     if (*data == '[') { 
+
          char *end = FindSeparator(data,']');
-         if (!end) {
-            data=NULL;  // wtf?
-            continue;
-         }
-         *end=0;
-         
-         data++;
-         data = SkipWhiteSpace(data);
-         TrimWhiteSpace(data);
+  
+         if (!end)
+           // no closing ] brace found, just send it as a keystroke
+           buf[count++] = VkKeyScan('[');
 
-         char *s;
-         char state = 0;
-         if (s = mstrstri(data, "_DOWN")) {
-            *s=0;
-            state = KEY_DOWN;
-         }
-         else if (s = mstrstri(data, "_UP")) {
-            *s=0;
-            state = KEY_UP;
-         }
-
-         char key = GetVKey(data);
-         if (key) {
-            if (state != 0)
-               buf[count++] = state;
-            buf[count++] = key;
-         }
          else
-            MessageBox(NULL, data, STR(ERR_UNKNOWN_KEY), MB_OK | MB_ICONWARNING);
+         {
 
-         if (s)   *s = '_';      // restore the _
-         if (end) *end = ']';    // restore ]
-         data=end;
+           // we've found a set of braces []
+           // temporarily null terminate the ]
+           // so we can do string comparisons on the data inside
+           *end=0;         
+   
+           char *s = NULL;
+           char state = 0;
+           if (s = mstrstri(data, "_DOWN")) {
+              *s=0;
+              state = KEY_DOWN;
+           }
+           else if (s = mstrstri(data, "_UP")) {
+              *s=0;
+              state = KEY_UP;
+           }
+
+           char key = GetVKey(data);
+           // we've found a constant
+           if (key) {
+              if (state != 0)
+                 buf[count++] = state;
+              buf[count++] = key;
+              data=end;
+           }
+           // the [ wasn't the start of a constant, just send it as a keystroke
+           else
+             buf[count++] = VkKeyScan('[');
+   
+           if (s)   *s = '_';      // restore the _
+           if (end) *end = ']';    // restore ]
+         }
       }
 
       else {
