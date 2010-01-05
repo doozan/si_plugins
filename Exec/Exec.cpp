@@ -142,12 +142,19 @@ EXEC(newmail)
       pArgs++;
     }
 
-    // replace %1 in the args with the target address
-    char *szCmdLine = StrReplace(pArgs, "%1", szTarget);
+    if (mstrstr(pArgs, "%1"))
+    {
+      // replace %1 in the args with the target address
+      char *szCmdLine = StrReplace(pArgs, "%1", szTarget);
+      Run(szFile, szCmdLine, NULL, NULL);
+      delete szCmdLine;
+    }
+    else
+    {
+      Run(szFile, szTarget, NULL, NULL);
+    }
 
-    Run(szFile, szCmdLine, NULL, NULL);
     delete szFile;
-    delete szCmdLine;
   }
 
   EXEC_RETURN(NULL);
@@ -176,12 +183,19 @@ EXEC(web)
       pArgs++;
     }
 
-    // replace %1 in the args with the target address
-    char *szCmdLine = StrReplace(pArgs, "%1", szTarget);
+    if (mstrstr(pArgs, "%1"))
+    {
+      // replace %1 in the args with the target address
+      char *szCmdLine = StrReplace(pArgs, "%1", szTarget);
+      Run(szFile, szCmdLine, NULL, NULL);
+      delete szCmdLine;
+    }
+    else
+    {
+      Run(szFile, szTarget, NULL, NULL);
+    }
 
-    Run(szFile, szCmdLine, NULL, NULL);
     delete szFile;
-    delete szCmdLine;
   }
 
   EXEC_RETURN(NULL);
@@ -440,6 +454,10 @@ char *StrReplace(char *szIn, char *szMatch, char *szReplace)
   char *szOut = new char[ lstrlen(szIn) + lstrlen(szReplace) ];
   char *pos = mstrstr(szIn, szMatch);
 
+  // no match, bail out
+  if (!pos)
+    return NULL;
+  
   // copy the part of the string before tha match
   mmemcpy(szOut, szIn, pos-szIn);
   szOut[pos-szIn] = '\0';
@@ -452,8 +470,8 @@ char *StrReplace(char *szIn, char *szMatch, char *szReplace)
   if (*pos)
     lstrcat(szOut, pos);
 
-
   return szOut;
+
 }
 
 
